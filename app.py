@@ -1,3 +1,12 @@
+from streamlit_gsheets import GSheetsConnection
+import streamlit as st
+
+# 1. 使用 st.connection 建立連接
+# [connections.gsheets] 是指 secrets.toml 裡面的區段名稱
+conn = st.connection("gsheets", type=GSheetsConnection) 
+
+# 2. 讀取 sheets/分頁 (例如 'beans' 分頁)
+df_beans = conn.read(worksheet="beans", ttl=0) # ttl=0 確保每次都讀取最新資料
 import streamlit as st
 import sqlite3
 import pandas as pd
@@ -177,3 +186,4 @@ elif menu == "📜 異動紀錄":
     '''
     df_logs = pd.read_sql(query, conn)
     st.dataframe(df_logs, use_container_width=True)
+
